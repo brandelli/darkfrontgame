@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		.card
+		{
+			width: 80px;
+			height: 80px;
+			border-radius: 40px;
+			float: left;
+		}
+
+		.card.red
+		{
+			background: #f68282;
+		}
+
+		.card.yellow
+		{
+			background: #ffefb3;
+		}
+
+		.card.green
+		{
+			background: #7cff8c;
+		}
+
+	</style>
+</head>
+<body>
+	<div id="helth">100</div>
+	<div id="app"></div>
+<script>
+	
+	let counter = 0
+	let MONSTER_HELTH = 100
+
+	const strike = attackValue => {
+
+		MONSTER_HELTH -= attackValue
+
+		if(MONSTER_HELTH > 0)
+		{
+			refresh()
+		}
+		else
+		{
+			MONSTER_HELTH = 0;
+			refresh()
+			alert("You Win!")
+		}
+		
+	}
+
+	const refresh = () => {
+		document.getElementById("helth").innerHTML = MONSTER_HELTH
+	}
+
+	const colors = new Array(
+		{ name: "red", force: 10 },
+		{ name: "yellow", force: 8 },
+		{ name: "green", force: 6 }
+	)
+
+	const random = () => Math.floor(Math.random() * colors.length)
+	const size = () => document.getElementById("app").children.length
+
+	const addCard = () => {
+
+		const className = colors[random()].name
+
+		let div = document.createElement('div')
+		div.id = counter
+		div.className = `card ${className}`
+		div.onclick = cardClick
+
+		document.getElementById("app").appendChild(div)
+
+		counter++
+	}
+
+	const removeCard = (id) => {
+		const target = document.getElementById(id)
+		document.getElementById("app").removeChild(target)
+	}
+
+	const populate = () => colors.forEach(() => addCard())
+	const start = () => populate()
+
+	const cardClick = (event) => {
+
+		const element = event.srcElement
+		const listClasses = element.classList.value
+		const test = /(red|yellow|green)/.test("red")
+
+		if(test)
+		{
+			const match = listClasses.match(/(red|yellow|green)/)[0]
+
+			const key = colors.findIndex((element, index) => {
+				if(element.name == match) return true
+			})
+
+			if(key > -1)
+			{
+				strike(colors[key].force)
+				removeCard(element.id)
+				if(size() == 0) populate()
+			}
+		
+		}
+	}
+
+	start()
+
+</script>
+</body>
+</html>
