@@ -6,95 +6,19 @@
 </head>
 <body>
 	
-	<monster-component helth="0"></monster-component>
-	<!-- player-component -->
-	<!-- card-board -->
+	<monster-component helth="100"></monster-component>
+	<player-component helth="100"></player-component>	
+	<card-board-component></card-board-component>	
+	
+	<script src="monster.component.js"></script>
+	<script src="player.component.js"></script>
+	<script src="card-board.component.js"></script>
 
 	<script>
-		
-		class MonsterComponent extends HTMLElement
-		{
-			constructor()
-			{
-				super()
-
-				this._helth = 0
-				
-				this.attachShadow({mode: 'open'}).innerHTML = `
-					<style>
-
-						#monster
-						{
-							width: 100%;
-							height: 30px;
-							background: gray;
-							border-radius: 6px;
-							color: white;
-						}
-
-						.helth
-						{
-							text-align: center;
-							height: 100%;
-							line-height: 30px;
-							background: blue;
-							text-align: center;
-							border-radius: 6px;
-							transition: width .25s;
-						}
-
-					</style>
-					<div id="monster">
-						<div class="helth">${this.helth}</div>
-					</div>
-				`
-
-			}
-
-			static get observedAttributes()
-			{
-				// TODO: enums
-				return ['helth']
-			}
-
-			attributeChangedCallback(name, old_value, new_value)
-			{
-				let helth = this.shadowRoot.querySelector('.helth')
-
-				switch(name)
-				{
-					// TODO: enums
-					case 'helth':
-						this._helth = parseInt(new_value, 10) || 0
-
-						helth.innerHTML = `${this.helth}%`
-						helth.style.width = `${this.helth}%`
-				}
-			}
-
-			connectedCallback()
-			{
-				
-			}
-
-			get helth()
-			{
-				// TODO: enums
-				return this.getAttribute('helth')
-			}
-
-			set helth(value)
-			{
-				// TODO: enums
-				this.setAttribute('helth', value)
-			}
-		}
 
 		window.customElements.define('monster-component', MonsterComponent)
-
-		setTimeout(() => {
-			document.querySelector('monster-component').setAttribute('helth', 100)
-		}, 500)
+		window.customElements.define('player-component', PlayerComponent)
+		window.customElements.define('card-board-component', CardBoardComponent)
 
 	</script>
 </body>
